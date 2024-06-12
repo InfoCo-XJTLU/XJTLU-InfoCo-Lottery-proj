@@ -1,0 +1,72 @@
+# -*- org-mode: -*-
+#+title: README
+#+author: reverberationFromAbyss(深渊回响)
+#+email: no email provided
+#+date: May.30, 2024
+
+#+options: toc:2
+
+#+seq_todo: todo(t@) feature(F@) issue(i!/@) wip(w@) fixme(f!/@) knwon(k!/@) | done(d!) canceled(c!/@) abort(a!/@)
+
+* Project: Lottery
+
+The project is amid at provide a lottery program that can change
+rate of prize according to the answers provided dynamically.
+
+* Content
+#+TOC: tables
+
+* Background
+This project is used for XJTLU InfoCo Computer Science Club New member engagement activities.
+
+(I'm from China and is not good at English, feel free to point out my grammar mistakes)
+(Thank you for reading this)
+
+* Goals [2/6]
++ [X] Random Generator (Partial)
++ [X] CSV Reader (Partial)
++ [ ] Read Question Data Base in specific `.csv' file.
++ [ ] Read Prize Data Base in specific `.csv' file.
++ [ ] Q&A check system
++ [ ] Prize pool [0/2]
+  - [ ] Base rate
+  - [ ] Rate increasing
++ [ ] UI [0/2]
+  - [ ] Questioning UI
+  - [ ] Lottery UI
+
+* WIP issues [0%]
+** wip Make standard question&prize information structure.
+- State "wip"        from              [2024-06-12 Wed 06:27]
+** todo Improve and enhance CSV Reader Function
+- State "todo"       from              [2024-06-12 Wed 06:27]
+** todo Lottery concept
+- State "todo"       from              [2024-06-12 Wed 06:28] \\
+  首先：
+  所有奖品按照$(价值)逆序占据 100%中的比例
+  题目按照$(价值)正序占据 100%中的比例
+  正确的题目会将价值等值加入对应奖品的$(价值)中.
+
+* todo Install
+- State "todo"       from              [2024-05-30 Thu 01:30]
+It is not finished yet,
+thus it cannot being installed for now.
+
+* todo Usage
+- State "todo"       from              [2024-05-30 Thu 01:30]
+Same reason as `Install' section.
+
+* todo Project Structures
+- State "todo"       from              [2024-05-30 Thu 01:31]
+The project is not organized yet.
+
+* Stuff
+Just me yet.
+
+* Contribute
+You may request issues?
+However, I'm still a college student, may have not that times to answer in time.
+
+* License
+Apache-2.0 License.
+

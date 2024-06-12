@@ -1,0 +1,49 @@
+# -*- org-mode: -*-
+#+title: README
+#+author: reverberationFromAbyss(深渊回响)
+#+email: no email provided
+#+date: May.30, 2024
+
+#+options: toc:2
+
+#+seq_todo: todo(t@) feature(F@) issue(i!/@) wip(w@) fixme(f!/@) knwon(k!/@) | done(d!) canceled(c!/@) abort(a!/@)
+
+* Git log convention
+** Format:
+#+begin_src xml
+  <type>(<scope>): <subject>
+  <BLANK LINE>
+  <body>
+  <BLANK LINE>
+  <footer>
+#+end_src
+
+** header
+*** <type>
++ feat,     new feature
++ fix,      bug fix
++ docs,     document part
++ style,    style changes
++ refactor, no new feature or bug fix
++ test,     add or change exist testes
++ chore,    change of building system
++ build,    change of building system, add dependences
++ perf,     performance improving
++ ci,       change of automate processes, or Continuous Integration about changes
++ revert,   rollback
+*** <scope>
+Influence scope.
+*** <subject>
+Summary of commit
+*** <body>
+detailed description.
+*** <footer>
++ break changes:
+  description: to changes, reason, and approach
++ issue closing:
+  Eg.
+#+begin_src yaml
+  Close #234
+#+end_src
+
+#  LocalWords:  Eg
