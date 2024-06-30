@@ -50,7 +50,6 @@ public class Program{
         initDB<QuestionEntry>(ref questionDatabase,out questiondb);
 
         var lot = new LotteryEngine(prizeDatabase);
-        Console.WriteLine("{0}", LotteryEngine.GenPrizeWeigt(LotteryEngine.GenSumSet(LotteryEngine.AdjustRatio(lot, new Dictionary<int, int>{{9,100}}))));
         Console.WriteLine("{0}", lot.GenPrizeItem(
                               LotteryEngine.GenSumSet(
                                   LotteryEngine.AdjustRatio(

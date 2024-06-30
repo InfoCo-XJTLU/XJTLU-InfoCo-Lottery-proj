@@ -202,7 +202,6 @@ namespace Lottery{
                 }
                 Utils.ConsoleWrapper.WriteDbg();
                 Console.WriteLine("{0}", "------- End Dbg info of prize db -------");
-
             }
 
             internal static void printDbgInfoSimpleRatioPool(in LotteryEngine obj){
@@ -215,7 +214,6 @@ namespace Lottery{
                 }
                 Utils.ConsoleWrapper.WriteDbg();
                 Console.WriteLine("{0}", "------- End Dbg info of SimpleRatioPool -------");
-
             }
 
             internal static void printDbgInfoPrizePool(in LotteryEngine obj){
@@ -235,7 +233,6 @@ namespace Lottery{
                 }
                 Utils.ConsoleWrapper.WriteDbg();
                 Console.WriteLine("{0}", "------- End Dbg info of prizePool -------");
-
             }
 
             internal static void printList<T>(in List<T> lst){
@@ -251,6 +248,17 @@ namespace Lottery{
             }
 
             internal static void printDict(in Dictionary<int, int> dict){
+
+                Utils.ConsoleWrapper.WriteDbg();
+                Console.WriteLine("{0}", "----------- Begin dbg info of dict ------------");
+                foreach(var val in dict){
+                    Utils.ConsoleWrapper.WriteDbg();
+                    Console.WriteLine("Key {0}: Value {1}", val.Key, val.Value);
+                }
+                Utils.ConsoleWrapper.WriteDbg();
+                Console.WriteLine("{0}", "----------- End dbg info of lst ------------");
+            }
+            internal static void printDict(in Dictionary<uint, int> dict){
 
                 Utils.ConsoleWrapper.WriteDbg();
                 Console.WriteLine("{0}", "----------- Begin dbg info of dict ------------");
@@ -474,9 +482,12 @@ namespace Lottery{
 
             var prizeSumSet = new Dictionary<uint, int>(prize.Count());
             var sum = prize.Values.Sum();
+            var tmp = 0;
             foreach(var val in prize){
-                prizeSumSet.Add(val.Key, val.Value*100/sum);
+                tmp += val.Value*100/sum;
+                prizeSumSet.Add(val.Key, tmp);
             }
+            DbgUtils.printDict(prizeSumSet);
             return prizeSumSet;
         }
 
