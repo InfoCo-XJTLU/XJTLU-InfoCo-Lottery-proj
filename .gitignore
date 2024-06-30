@@ -1,2 +1,7 @@
 obj
 bin
+.netcoredbg_hist
+.projectile
+node_modules
+package.json
+package-lock.json
