@@ -88,7 +88,7 @@ namespace Utils{
 
             var tmp = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Error.Write("{0}", "Debug: ");
+            Console.Write("{0}", "Debug: ");
             Console.ForegroundColor = tmp;
         }
     }

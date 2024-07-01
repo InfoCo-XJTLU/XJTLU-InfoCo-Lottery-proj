@@ -50,14 +50,26 @@ public class Program{
         initDB<QuestionEntry>(ref questionDatabase,out questiondb);
 
         var lot = new LotteryEngine(prizeDatabase);
-        Console.WriteLine("{0}", lot.GenPrizeItem(
-                              LotteryEngine.GenSumSet(
-                                  LotteryEngine.AdjustRatio(
-                                      LotteryEngine.GenUIDRatioDict(
-                                          lot.GetPrizeItemByWeight(
-                                              LotteryEngine.GenPrizeWeigt(
-                                                  LotteryEngine.GenSumSet(
-                                                      LotteryEngine.AdjustRatio(lot)))))))).Name);
+        // Console.WriteLine("{0}",
+        //                   LotteryEngine.GenPrizeWeigt(
+        //                       LotteryEngine.GenSumSet(
+        //                           LotteryEngine.AdjustRatio(lot, new Dictionary<int, int>{{9,100}}))));
+        while(true){
+            var val = lot.GenPrizeItem(
+                lot.GenSumSet(
+                    lot.AdjustRatio(
+                        LotteryEngine.GenUIDRatioDict(
+                            lot.GetPrizeItemByWeight(
+                                lot.GenPrizeWeigt(
+                                    lot.GenSumSet(
+                                        lot.AdjustRatio())))
+                            .Where(x => x.Value.Num > 0 || x.Value.Infinity)
+                            .Select(x => x)
+                            .ToDictionary()
+                        ))));
+            Console.WriteLine("{0}", val.Name);
+            lot.DecreasePrize(val.UID);
+        }
         // LotteryEngine.GenSumSet(lot.AdjustRatio(new Dictionary<int , int>{{9, 20},{-1 ,30}}.ToArray()));
 
         return 0;
