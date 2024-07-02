@@ -29,9 +29,9 @@ namespace Lottery{
         [Ignore] private int basicRatio = 0; // between 0~1000
 
         [Name("UID")] [Optional] public uint UID { get{ return uid; } set{ uid = value; } }
-        [Name("name")] [NullValues("Null")] public string Name { get => name; set => name = value; }
-        [Name("weight")] [NullValues("Null")] public int? Weight { [return: NotNull] get{ return weight; } set{ weight = (value??0) >= 0 ||value is null ? value.GetValueOrDefault(-1) : throw new Exception("Error: invalid input."); } }
-        [Name("number")] public int Num {
+        [Name("Name")] [NullValues("Null")] public string Name { get => name; set => name = value; }
+        [Name("Weight")] [NullValues("Null")] public int? Weight { [return: NotNull] get{ return weight; } set{ weight = (value??0) >= 0 ||value is null ? value.GetValueOrDefault(-1) : throw new Exception("Error: invalid input."); } }
+        [Name("Number")] public int Num {
             get => number;
             set {
                 number = value;
@@ -44,8 +44,8 @@ namespace Lottery{
             }
         }
         [Ignore] public int OriginalNumber{ get => originalNumber; }
-        [Name("url")] [Optional] [NullValues("Null")] public string Url { get => url; set => url = value; }
-        [Name("ratio")] [NullValues("Null")] [Default(0)] public int? Ratio {
+        [Name("Url")] [Optional] [NullValues("Null")] public string Url { get => url; set => url = value; }
+        [Name("Ratio")] [NullValues("Null")] [Default(0)] public int? Ratio {
             get => basicRatio;
             set{
                 if(null == value){

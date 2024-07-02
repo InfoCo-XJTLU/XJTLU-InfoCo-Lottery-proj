@@ -1,8 +1,8 @@
-obj
-bin
-cfg
-.netcoredbg_hist
-.projectile
-node_modules
-package.json
-package-lock.json
+Core/obj
+Core/bin
+Core/cfg
+Core/.netcoredbg_hist
+Core/.projectile
+Core/node_modules
+Core/package.json
+Core/package-lock.json
