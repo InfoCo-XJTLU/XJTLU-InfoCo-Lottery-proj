@@ -22,23 +22,30 @@ This project is used for XJTLU InfoCo Computer Science Club New member engagemen
 (I'm from China and is not good at English, feel free to point out my grammar mistakes)
 (Thank you for reading this)
 
-* Goals [2/6]
+* Goals [5/7]
 + [X] Random Generator (Partial)
 + [X] CSV Reader (Partial)
-+ [ ] Read Question Data Base in specific `.csv' file.
-+ [ ] Read Prize Data Base in specific `.csv' file.
-+ [ ] Q&A check system
-+ [ ] Prize pool [0/2]
-  - [ ] Base rate
-  - [ ] Rate increasing
++ [X] Read Question Data Base in specific `.csv' file.
++ [X] Read Prize Data Base in specific `.csv' file.
++ [-] Q&A check system [1/2]
+  - [X] Question info
+  - [ ] Question check system
++ [X] Prize pool [2/2]
+  - [X] Base rate
+  - [X] Rate increasing
 + [ ] UI [0/2]
   - [ ] Questioning UI
   - [ ] Lottery UI
 
-* WIP issues [0%]
-** wip Make standard question&prize information structure.
+* WIP issues [50%]
+** done Make standard question&prize information structure.
+CLOSED: [2024-07-02 Tue 23:30]
+- State "done"       from "wip"        [2024-07-02 Tue 23:30]
 - State "wip"        from              [2024-06-12 Wed 06:27]
-** todo Improve and enhance CSV Reader Function
+** done Improve and enhance CSV Reader Function
+Using CsvHelper instead
+CLOSED: [2024-07-02 Tue 23:30]
+- State "done"       from "todo"       [2024-07-02 Tue 23:30]
 - State "todo"       from              [2024-06-12 Wed 06:27]
 ** todo Lottery concept
 - State "todo"       from              [2024-06-12 Wed 06:28] \\
@@ -46,27 +53,39 @@ This project is used for XJTLU InfoCo Computer Science Club New member engagemen
   所有奖品按照$(价值)逆序占据 100%中的比例
   题目按照$(价值)正序占据 100%中的比例
   正确的题目会将价值等值加入对应奖品的$(价值)中.
+** todo Debug utils
+- State "todo"       from              [2024-07-02 Tue 23:41] \\
+  Create a Debug class in Utils namespace.
+  Delete all debug sentences in `Lottery.cs'
+# split
 
 * todo Install
 - State "todo"       from              [2024-05-30 Thu 01:30]
 It is not finished yet,
 thus it cannot being installed for now.
+# split
 
 * todo Usage
 - State "todo"       from              [2024-05-30 Thu 01:30]
 Same reason as `Install' section.
+# split
 
 * todo Project Structures
 - State "todo"       from              [2024-05-30 Thu 01:31]
 The project is not organized yet.
+# split
 
 * Stuff
 Just me yet.
+# split
 
 * Contribute
 You may request issues?
 However, I'm still a college student, may have not that times to answer in time.
+# split
 
 * License
-Apache-2.0 License.
+Apache License ver.2. which can be found on `doc' folder with name of `LICENSE.apache'.
+& MS-PL. which can be found on `doc' folder with name of `LICENSE.ms'.
 
+Used CsvHelper, License under MS-PL & Apache License ver.2, which can be found on `doc' folder, with name of `LICENSE.csvhelper'.

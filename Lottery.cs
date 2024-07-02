@@ -30,18 +30,7 @@ namespace Lottery{
 
         [Name("UID")] [Optional] public uint UID { get{ return uid; } set{ uid = value; } }
         [Name("name")] [NullValues("Null")] public string Name { get => name; set => name = value; }
-        [Name("weight")] [NullValues("Null")] public int? Weight {
-            [return: NotNull] get{ return weight; }
-            set{
-                if(value is null){
-                    weight = -1;
-                }else{
-                    weight = (value ?? 0) >= 0
-                        ? value ?? 0
-                        : throw new Exception("Error: weight must greater than or equal to 0.");
-                }
-            }
-        }
+        [Name("weight")] [NullValues("Null")] public int? Weight { [return: NotNull] get{ return weight; } set{ weight = (value??0) >= 0 ||value is null ? value.GetValueOrDefault(-1) : throw new Exception("Error: invalid input."); } }
         [Name("number")] public int Num {
             get => number;
             set {
@@ -54,13 +43,8 @@ namespace Lottery{
                 }
             }
         }
-        [Ignore] public int OriginalNumber{
-            get => originalNumber;
-        }
-        [Name("url")] [Optional] [NullValues("Null")] public string Url {
-            get => url;
-            set => url = value;
-        }
+        [Ignore] public int OriginalNumber{ get => originalNumber; }
+        [Name("url")] [Optional] [NullValues("Null")] public string Url { get => url; set => url = value; }
         [Name("ratio")] [NullValues("Null")] [Default(0)] public int? Ratio {
             get => basicRatio;
             set{
@@ -73,15 +57,10 @@ namespace Lottery{
                 }
             }
         }
-        [Ignore] public bool Infinity{
-            get => infinity;
-        }
+        [Ignore] public bool Infinity{ get => infinity; }
         // End internal properties.
 
-        public int CompareTo(PrizeItem? obj){
-
-            return this.weight.CompareTo((obj?? new PrizeItem()).weight);
-        }
+        public int CompareTo(PrizeItem? obj){ return this.weight.CompareTo((obj?? new PrizeItem()).weight); }
 
         public override bool Equals(object? obj){
 
@@ -91,8 +70,7 @@ namespace Lottery{
             PrizeItem objIns = (obj as PrizeItem)!;
             if(objIns == null){
                 return false;
-            }
-            else{
+            }else{
                 return Equals(objIns);
             }
         }
@@ -161,14 +139,12 @@ namespace Lottery{
 
         private string dbpath = null!;
         private Dictionary<uint, PrizeItem> prizedb = new Dictionary<uint, PrizeItem>(); // uid, prize item
-        private Dictionary<int, int> simpleRatioPool = new Dictionary<int, int>();// weight, ratio sum
+        // private Dictionary<int, int> simpleRatioPool = new Dictionary<int, int>();// weight, ratio sum
         private Dictionary<int, uint[]> prizePool = new Dictionary<int, uint[]>();// weight, prize item uid list, weight to -1, infinity prize item list
-        private int totalRatio;
 
         public LotteryEngine(string dbpath){
 
             this.dbpath = dbpath;
-            // initDB(ref this.dbpath); //used to use.
             List<PrizeItem> tmpdb;
             Utils.PathTool.initDB(ref this.dbpath, out tmpdb);
             tmpdb.Sort();
@@ -182,23 +158,20 @@ namespace Lottery{
             }
 
             initPrizePool();
-            totalRatio = simpleRatioPool.Select( x => x.Value).Sum();
+
+            var totalRatio = GenWeightRatioDict().Select( x => x.Value).Sum();
             if(totalRatio > 1000){
                 Utils.ConsoleWrapper.WriteError();
                 Console.WriteLine("{0}", "the total ratio is over 1000%o!");
                 Utils.ConsoleWrapper.WriteError();
                 Console.WriteLine("{0}", "Try select another");
                 this.dbpath = "";
-                initDB(ref this.dbpath);
+                Utils.PathTool.initDB(ref this.dbpath, out tmpdb);
             }
-
-            // DbgUtils.printDbgInfoPrizeDB(this);
-            // DbgUtils.printDbgInfoSimpleRatioPool(this);
-            // DbgUtils.printDbgInfoPrizePool(this);
 
         }
 
-        private static class DbgUtils{
+        public static class DbgUtils{
 
             internal static void printDbgInfoPrizeDB(in LotteryEngine obj){
 
@@ -226,32 +199,22 @@ namespace Lottery{
                 Console.WriteLine("{0}", "------- End Dbg info of prize db -------");
             }
 
-            internal static void printDbgInfoSimpleRatioPool(in LotteryEngine obj){
-
-                Utils.ConsoleWrapper.WriteDbg();
-                Console.WriteLine("{0}", "------- Begin Dbg info of SimpleRatioPool -------");
-                foreach(var val in obj.simpleRatioPool){
-                    Utils.ConsoleWrapper.WriteDbg();
-                    Console.WriteLine("Weight {0}: Ratio {1}", val.Key, val.Value);
-                }
-                Utils.ConsoleWrapper.WriteDbg();
-                Console.WriteLine("{0}", "------- End Dbg info of SimpleRatioPool -------");
-            }
-
             internal static void printDbgInfoPrizePool(in LotteryEngine obj){
 
                 Utils.ConsoleWrapper.WriteDbg();
                 Console.WriteLine("{0}", "------- Begin Dbg info of prizePool -------");
                 foreach(var val in obj.prizePool){
                     Utils.ConsoleWrapper.WriteDbg();
-                    Console.Write("Weight {0}: Prize Item UID {1}: ", val.Key, val.Value.Count());
+                    Console.Write("Weight {0}: Prize Item UID {1}: \n", val.Key, val.Value.Count());
                     foreach(var v in val.Value){
+                        Utils.ConsoleWrapper.WriteDbg();
+                        Console.Write("| ");
+                        Console.Write("{0}","".PadLeft(@"Weight : ".Length - 1));
                         foreach(var j in obj.prizedb[v].GetType().GetProperties()){
                             Console.Write("{1}:{0}, ", j.GetValue(obj.prizedb[v]), j.Name);
                         }
-                        Console.Write(" | ");
+                        Console.WriteLine("");
                     }
-                    Console.WriteLine("");
                 }
                 Utils.ConsoleWrapper.WriteDbg();
                 Console.WriteLine("{0}", "------- End Dbg info of prizePool -------");
@@ -299,52 +262,10 @@ namespace Lottery{
             }
         }
 
-        private void initDB(ref string dbpath){
-            //Obsoleted
-
-            Utils.PathTool.TryGetPath(ref dbpath, ".csv");
-
-            // Useless, but to prevent compiler error
-            // Provide a default empty value;
-            prizedb = new Dictionary<uint, PrizeItem>();
-            List<PrizeItem> tmp = new List<PrizeItem>();
-
-            using (var reader = new StreamReader(dbpath))
-            {
-                using (var csvdbreader = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture)){
-                    bool flag = true;
-                    do{
-                        try{
-                            tmp = csvdbreader.GetRecords<PrizeItem>().ToList();
-                            flag = false;
-                        }catch{
-                            Utils.ConsoleWrapper.WriteError();
-                            Console.Error.WriteLine("{0}","Not a csv or file dose not match the request.");
-                            dbpath = "";
-                            Utils.PathTool.TryGetPath(ref dbpath, ".csv");
-                            flag = true;
-                        }finally{
-                        }
-                    }while(flag);
-
-                    var modinfo = typeof(PrizeItem).GetMethod("init");
-                    if(null != modinfo){
-                        foreach(var val in tmp){
-                            modinfo.Invoke(val, null);
-                        }
-                    }
-
-                    foreach(var val in tmp){
-                        prizedb.Add(val.UID, val);
-                    }
-                }
-            }
-        }
-
         private void initPrizePool(){
 
             foreach(var val in prizedb.GroupBy(x => x.Value.Weight ?? -1).ToArray()){
-                simpleRatioPool.Add(val.Key, val.ToArray().Select(x => x.Value.Num > 0 ? x.Value.Ratio * x.Value.Num : 0).Sum() ?? 0);
+                // simpleRatioPool.Add(val.Key, val.ToArray().Select(x => x.Value.Num > 0 ? x.Value.Ratio * x.Value.Num : 0).Sum() ?? 0);
                 prizePool.Add(val.Key, (from v in val
                                         select v.Value.UID).ToArray());
             }
@@ -352,7 +273,7 @@ namespace Lottery{
             return;
         }
 
-        public void DecreasePrize(uint uid, bool decreaseRatio = false){
+        public void DecreasePrize(uint uid){
 
             try{
                 prizedb[uid].DecreaseNum();
@@ -360,38 +281,30 @@ namespace Lottery{
                 Utils.ConsoleWrapper.WriteError();
                 Console.Error.WriteLine("{0}", "Insufficient prize");
             }
-            if(0 == prizedb[uid].Num){
-                foreach(var val in simpleRatioPool){
-                    simpleRatioPool[prizedb[uid].Weight??0] -= val.Key >= (prizedb[uid].Weight ?? 0)
-                        ? (prizedb[uid].Ratio??0) * prizedb[uid].OriginalNumber
-                        : 0;
-                }
-            }else{
-                simpleRatioPool[prizedb[uid].Weight??0] -= decreaseRatio ? prizedb[uid].Ratio ?? 0 : 0;
-            }
 
             return;
         }
 
+        public Dictionary<int, int> GenWeightRatioDict(bool decreaseAsNumChange = false){
+            var dict = new Dictionary<int, int>();
+            foreach(var val in prizedb.GroupBy(x => x.Value.Weight ?? -1).ToArray()){
+                dict.Add(val.Key, val.ToArray().Select(x => x.Value.Num > 0 ? x.Value.Ratio * (decreaseAsNumChange ? x.Value.Num : x.Value.OriginalNumber) : 0).Sum() ?? 0);
+            }
+            return dict;
+        }
+
         ///<summary>
-        ///Method <c>GetPrizeItemByWeight</c> returns a subset of prizedb
+        ///Method <c>GenUIDRatioDictByWeight</c> returns a subset of prizedb
         ///</summary>
         ///<param name="weight">the weight of looking for items.</param>
         ///<returns>A dictionary of UID and PrizeItem. </returns>
-        public Dictionary<uint, PrizeItem> GetPrizeItemByWeight(int weight){
-
-            var dict = new Dictionary<uint, PrizeItem>();
-            foreach(var val in prizePool[weight]){
-                dict.Add(prizedb[val].UID, prizedb[val]);
-            }
-            return dict;
-        }
-
-        public static Dictionary<uint, int> GenUIDRatioDict(Dictionary<uint, PrizeItem> prize){
+        public Dictionary<uint, int> GenUIDRatioDictByWeight(int weight){
 
             var dict = new Dictionary<uint, int>();
-            foreach(var val in prize){
-                dict.Add(val.Key, val.Value.Ratio??0);
+            foreach(var val in prizePool[weight]){
+                if(prizedb[val].Num > 0 || prizedb[val].Infinity){
+                    dict.Add(prizedb[val].UID, prizedb[val].Ratio??0);
+                }
             }
             return dict;
         }
@@ -399,11 +312,12 @@ namespace Lottery{
         ///<summary>
         ///Method <c>AdjustRatio</c> adjust ratio pool according to parameters.
         ///</summary>
-        ///<param name="prize">the adjusting list.</param>
+        ///<param name="dict">the dict to be adjust, <weight, ratio>.</param>
+        ///<param name="prize">the adjusting list, <weight, ratio>.</param>
         ///<returns>A dictionary of weight and ratio. </returns>
-        public Dictionary<int, int> AdjustRatio(Dictionary<int, int> prize){
+        public Dictionary<int, int> AdjustRatio(Dictionary<int, int> dict,Dictionary<int, int> prize){
 
-            var adjustedDict = new Dictionary<int, int>(simpleRatioPool.Where(x => x.Value > 0 || x.Key == -1).ToDictionary());
+            var adjustedDict = new Dictionary<int, int>(dict.Where(x => x.Value > 0 || x.Key == -1).ToDictionary());
             foreach(var val in prize){
                 if(val.Key == -1){
                     throw new Exception("Error: Cannot adjust ratio of infinity object.");
@@ -421,11 +335,12 @@ namespace Lottery{
         ///<summary>
         ///Method <c>AdjustRatio</c> adjust ratio pool according to parameters.
         ///</summary>
-        ///<param name="prize">the adjusting list.</param>
+        ///<param name="dict">the dict to be adjust, <weight, ratio>.</param>
+        ///<param name="prize">the adjusting list, <weight, ratio>.</param>
         ///<returns>A dictionary of weight and ratio. </returns>
-        public Dictionary<int, int> AdjustRatio(params KeyValuePair<int, int>[] prize){
+        public Dictionary<int, int> AdjustRatio(Dictionary<int, int>dict, params KeyValuePair<int, int>[] prize){
 
-            var adjustedDict = new Dictionary<int, int>(simpleRatioPool.Where(x => x.Value > 0 || x.Key == -1).ToDictionary());
+            var adjustedDict = new Dictionary<int, int>(dict.Where(x => x.Value > 0 || -1 == x.Key).ToDictionary());
             foreach(var val in prize){
                 if(val.Key == -1){
                     throw new Exception("Error: Cannot adjust ratio of infinity object.");
@@ -443,12 +358,12 @@ namespace Lottery{
         ///<summary>
         ///Method <c>AdjustRatio</c> adjust ratio pool according to parameters.
         ///</summary>
-        ///<param name="ratioPool">the operating object.</param>
-        ///<param name="prize">the adjusting list.</param>
+        ///<param name="ratioPool">the operating object, <uid, ratio>.</param>
+        ///<param name="prize">the adjusting list, <uid, ratio>.</param>
         ///<returns>A dictionary of UID and ratio. </returns>
         public Dictionary<uint, int> AdjustRatio(Dictionary<uint, int> ratioPool, Dictionary<uint, int> prize){
 
-            var adjustedDict = new Dictionary<uint, int>(ratioPool);
+            var adjustedDict = new Dictionary<uint, int>(ratioPool.Where(x => prizedb[x.Key].Num > 0 || prizedb[x.Key].Infinity).ToDictionary());
             foreach(var val in prize){
                 int va = adjustedDict[val.Key] + val.Value;
                 if(va <= 0){
@@ -457,18 +372,19 @@ namespace Lottery{
                     adjustedDict[val.Key] = va;
                 }
             }
+
             return adjustedDict;
         }
 
         ///<summary>
         ///Method <c>AdjustRatio</c> adjust ratio pool according to parameters.
         ///</summary>
-        ///<param name="ratioPool">the operating object.</param>
-        ///<param name="prize">the adjusting list.</param>
+        ///<param name="ratioPool">the operating object, <uid, ratio>.</param>
+        ///<param name="prize">the adjusting list, <uid, ratio>.</param>
         ///<returns>A dictionary of UID and ratio. </returns>
         public Dictionary<uint, int> AdjustRatio(Dictionary<uint, int> ratioPool, params KeyValuePair<uint, int>[] prize){
 
-            var adjustedDict = new Dictionary<uint, int>(ratioPool);
+            var adjustedDict = new Dictionary<uint, int>(ratioPool.Where(x => prizedb[x.Key].Num > 0 || prizedb[x.Key].Infinity).ToDictionary());
             foreach(var val in prize){
                 int va = adjustedDict[val.Key] + val.Value;
                 if(va <= 0){
@@ -477,6 +393,7 @@ namespace Lottery{
                     adjustedDict[val.Key] = va;
                 }
             }
+
             return adjustedDict;
         }
 
@@ -497,7 +414,7 @@ namespace Lottery{
                     prizeSumSet.Add(val.Key, tmp);
                 }
             }
-            // DbgUtils.printDict(prizeSumSet);
+
             return prizeSumSet;
         }
 
@@ -515,7 +432,6 @@ namespace Lottery{
                 tmp += val.Value*100/sum;
                 prizeSumSet.Add(val.Key, tmp);
             }
-            // DbgUtils.printDict(prizeSumSet);
 
             return prizeSumSet;
         }
@@ -527,12 +443,16 @@ namespace Lottery{
         ///<returns>prize weight. </returns>
         public int GenPrizeWeigt(Dictionary<int, int> prize){
 
-            // Utils.ConsoleWrapper.WriteDbg();
-            // Console.WriteLine("{0}", "sumset(weight)");
-            // DbgUtils.printDict(prize);
-
             var rann = Utils.RandomGenerator.GenRandom()*10;
-            // DbgUtils.printInt(rann);
+
+            // --------------------------------------------------------
+            Utils.ConsoleWrapper.WriteDbg();
+            Console.WriteLine("{0}", "sumset(weight)");
+            Utils.ConsoleWrapper.WriteDbg();
+            Console.WriteLine("{0}", "weight/ratio(in 1000%o)");
+            DbgUtils.printDict(prize);
+            DbgUtils.printInt(rann);
+            // --------------------------------------------------------
 
             foreach(var val in prize){
                 if(-1 == val.Key){
@@ -547,15 +467,16 @@ namespace Lottery{
 
         public PrizeItem GenPrizeItem(Dictionary<uint, int> prize){
 
-            // DbgUtils.printDbgInfoPrizeDB(this);
-            // DbgUtils.printDbgInfoPrizePool(this);
-            // DbgUtils.printDbgInfoSimpleRatioPool(this);
-            // Utils.ConsoleWrapper.WriteDbg();
-            // Console.WriteLine("{0}", "sumset(item)");
-            // DbgUtils.printDict(prize);
-
             var rann = Utils.RandomGenerator.GenRandom();
-            // DbgUtils.printInt(rann);
+
+            // ------------------------------------------------------------------------------------
+            Utils.ConsoleWrapper.WriteDbg();
+            Console.WriteLine("{0}", "sumset(item)");
+            Utils.ConsoleWrapper.WriteDbg();
+            Console.WriteLine("{0}", "uid/ratio(in 100%)");
+            DbgUtils.printDict(prize);
+            DbgUtils.printInt(rann);
+            // ------------------------------------------------------------------------------------
 
             foreach(var val in prize){
                 if(rann <= val.Value){
@@ -568,79 +489,4 @@ namespace Lottery{
 
     }//!END: LotteryEngine
 
-    /*
-      public class LotteryStructure{
-
-      private Prize[] PrizePool { get; set; } = null!;
-      private List<int> AdjustedRatioPool { set; get; } = new List<int>();
-      private int FullRatio { set; get; } = 0;
-      public LotteryStructure(ref string dbpath){
-      initDB<Prize>(ref dbpath, out PrizePool);
-      }
-
-      public void InitPrizePool(in Prize[] prizedb){
-            
-            var total = prizedb.Length;
-            for(var i = 0; i < total; i++){
-                PrizePool.Append(
-                    -1 == prizedb[i].Number
-                    ? prizedb[i].BasicRatio
-                    : prizedb[i].BasicRatio*prizedb[i].Number
-                );
-            }
-            foreach(var val in prizedb){
-                int tmp = 0;
-                int lastweight = -1;
-                if(lastweight != val.Weight){
-                    AdjustedRatioPool.Append(tmp);
-                    tmp = val.BasicRatio;
-                    lastweight=val.Weight;
-                }else{
-                    tmp += val.BasicRatio;
-                }
-            }
-            FullRatio = PrizePool.Sum();
-            
-            // TODO: delete here
-            foreach(var val in PrizePool){
-                Console.WriteLine("{0}",val);
-            }
-            Console.WriteLine();
-            foreach(var val in AdjustedRatioPool){
-                Console.WriteLine("{0}",val);
-            }
-            
-            return;
-        }
-
-        void DecreasePrize(ref Prize[] prizedb,int prize){
-            if(0 == (--prizedb[prize].Number)){
-                PrizePool[prize] = 0;
-            }
-            PrizePool[prize] = prizedb[prize].BasicRatio*prizedb[prize].Number;
-            return;
-        }
-        
-        string DisplayPrize(ref Prize[] prizedb, int prize){
-            Console.WriteLine("{0}",prizedb[prize].PrizeName);
-            DecreasePrize(ref prizedb, prize);
-            return prizedb[prize].PrizeName;
-        }
-        
-        void AdjustRatio(int weight, int ratio){
-            int va = AdjustedRatioPool[weight] + ratio;
-            if(va <= 0){
-                AdjustedRatioPool[weight] = 0;
-            }else{
-                AdjustedRatioPool[weight] = va;
-            }
-            FullRatio = AdjustedRatioPool.Sum();
-            return;
-        }
-        
-        void GeneratePrize(ref Prize[] prizedb){
-            var ran = new RandomGenerator();
-        }
-    }
-    */
 }

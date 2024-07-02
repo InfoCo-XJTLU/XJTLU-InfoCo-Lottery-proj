@@ -22,7 +22,7 @@ namespace Utils{
                         }catch{
                             Utils.ConsoleWrapper.WriteError();
                             Console.Error.WriteLine("{0}","Not a csv or file dose not match the request.");
-                            dbpath = "";
+                            dbpath = typeof(T).ToString();
                             Utils.PathTool.TryGetPath(ref dbpath, ".csv");
                             flag = true;
                         }finally{
