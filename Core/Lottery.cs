@@ -175,9 +175,9 @@ namespace Lottery{
 
             internal static void printDbgInfoPrizeDB(in LotteryEngine obj){
 
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("{0}", "------- Begin Dbg info of prize db -------");
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 foreach(var val in typeof(PrizeItem).GetProperties().ToList()){
                     Console.Write("{0} ", val.Name);
                 }
@@ -186,7 +186,7 @@ namespace Lottery{
                     if(val.Value == null){
                         break;
                     }
-                    Utils.ConsoleWrapper.WriteDbg();
+                    Utils.ConsoleWrapper.WriteDebug();
                     foreach(var j in val.Value.GetType().GetProperties()){
                         if(val.Value == null){
                             break;
@@ -195,19 +195,19 @@ namespace Lottery{
                     }
                     Console.WriteLine("");
                 }
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("{0}", "------- End Dbg info of prize db -------");
             }
 
             internal static void printDbgInfoPrizePool(in LotteryEngine obj){
 
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("{0}", "------- Begin Dbg info of prizePool -------");
                 foreach(var val in obj.prizePool){
-                    Utils.ConsoleWrapper.WriteDbg();
+                    Utils.ConsoleWrapper.WriteDebug();
                     Console.Write("Weight {0}: Prize Item UID {1}: \n", val.Key, val.Value.Count());
                     foreach(var v in val.Value){
-                        Utils.ConsoleWrapper.WriteDbg();
+                        Utils.ConsoleWrapper.WriteDebug();
                         Console.Write("| ");
                         Console.Write("{0}","".PadLeft(@"Weight : ".Length - 1));
                         foreach(var j in obj.prizedb[v].GetType().GetProperties()){
@@ -216,48 +216,48 @@ namespace Lottery{
                         Console.WriteLine("");
                     }
                 }
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("{0}", "------- End Dbg info of prizePool -------");
             }
 
             internal static void printList<T>(in List<T> lst){
 
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("{0}", "----------- Begin dbg info of lst ------------");
                 foreach(var val in lst){
-                    Utils.ConsoleWrapper.WriteDbg();
+                    Utils.ConsoleWrapper.WriteDebug();
                     Console.WriteLine("{0}", val);
                 }
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("{0}", "----------- End dbg info of lst ------------");
             }
 
             internal static void printDict(in Dictionary<int, int> dict){
 
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("{0}", "----------- Begin dbg info of dict ------------");
                 foreach(var val in dict){
-                    Utils.ConsoleWrapper.WriteDbg();
+                    Utils.ConsoleWrapper.WriteDebug();
                     Console.WriteLine("Key {0}: Value {1}", val.Key, val.Value);
                 }
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("{0}", "----------- End dbg info of lst ------------");
             }
             internal static void printDict(in Dictionary<uint, int> dict){
 
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("{0}", "----------- Begin dbg info of dict ------------");
                 foreach(var val in dict){
-                    Utils.ConsoleWrapper.WriteDbg();
+                    Utils.ConsoleWrapper.WriteDebug();
                     Console.WriteLine("Key {0}: Value {1}", val.Key, val.Value);
                 }
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("{0}", "----------- End dbg info of lst ------------");
             }
 
             internal static void printInt(in int val){
 
-                Utils.ConsoleWrapper.WriteDbg();
+                Utils.ConsoleWrapper.WriteDebug();
                 Console.WriteLine("Value {0}", val);
             }
         }
@@ -429,7 +429,7 @@ namespace Lottery{
             var sum = prize.Values.Sum();
             var tmp = 0;
             foreach(var val in prize){
-                tmp += val.Value*100/sum;
+                tmp += val.Value*100/sum; // FIXME: sometimes it may not be 100 in total
                 prizeSumSet.Add(val.Key, tmp);
             }
 
@@ -446,9 +446,9 @@ namespace Lottery{
             var rann = Utils.RandomGenerator.GenRandom()*10;
 
             // --------------------------------------------------------
-            Utils.ConsoleWrapper.WriteDbg();
+            Utils.ConsoleWrapper.WriteDebug();
             Console.WriteLine("{0}", "sumset(weight)");
-            Utils.ConsoleWrapper.WriteDbg();
+            Utils.ConsoleWrapper.WriteDebug();
             Console.WriteLine("{0}", "weight/ratio(in 1000%o)");
             DbgUtils.printDict(prize);
             DbgUtils.printInt(rann);
@@ -470,9 +470,9 @@ namespace Lottery{
             var rann = Utils.RandomGenerator.GenRandom();
 
             // ------------------------------------------------------------------------------------
-            Utils.ConsoleWrapper.WriteDbg();
+            Utils.ConsoleWrapper.WriteDebug();
             Console.WriteLine("{0}", "sumset(item)");
-            Utils.ConsoleWrapper.WriteDbg();
+            Utils.ConsoleWrapper.WriteDebug();
             Console.WriteLine("{0}", "uid/ratio(in 100%)");
             DbgUtils.printDict(prize);
             DbgUtils.printInt(rann);
