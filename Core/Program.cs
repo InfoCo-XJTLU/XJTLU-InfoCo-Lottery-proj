@@ -4,7 +4,35 @@ using CsvHelper;
 
 public class Program{
 
+    private static LotteryEngine lottery= null!;
+    private static QuestionEngine quiz = null!;
+
     private static void mainLoop(in List<QuestionEntry> questiondb){
+    }
+
+    private static void displayQuestions(){
+
+        var itemsNum = quiz.GetWeights();
+    }
+
+    private static void genprize(Dictionary<int, int> adj){
+
+        var val = lottery.GenPrizeItem(
+            lottery.GenSumSet(
+                lottery.AdjustRatio(
+                    lottery.GenUIDRatioDictByWeight(
+                        lottery.GenPrizeWeigt(
+                            lottery.GenSumSet(
+                                lottery.AdjustRatio(
+                                    lottery.GenWeightRatioDict(
+                                        false),
+                                    adj)))))));
+
+        lottery.DecreasePrize(val.UID);
+
+        Console.WriteLine("{0}", val.Name);
+
+        LotteryEngine.DbgUtils.printDbgInfoPrizePool(lottery);
     }
 
     public static int Main(string[] args)
@@ -13,27 +41,12 @@ public class Program{
         var questionDatabase = baseDir + "cfg/questionDatabase.csv";
         var defaultPrizeDatabase = baseDir + "cfg/prizeDatabase.csv";
 
-        var quiz = new QuestionEngine(questionDatabase);
-        var lot = new LotteryEngine(defaultPrizeDatabase);
+        quiz = new QuestionEngine(questionDatabase);
+        lottery = new LotteryEngine(defaultPrizeDatabase);
 
-        LotteryEngine.DbgUtils.printDbgInfoPrizeDB(lot);
-        for(var i = 1;i < 200; i ++){
+        LotteryEngine.DbgUtils.printDbgInfoPrizeDB(lottery);
+        LotteryEngine.DbgUtils.printDbgInfoPrizePool(lottery);
 
-            var val = lot.GenPrizeItem(
-                lot.GenSumSet(
-                    lot.AdjustRatio(
-                        lot.GenUIDRatioDictByWeight(
-                            lot.GenPrizeWeigt(
-                                lot.GenSumSet(
-                                    lot.AdjustRatio(
-                                        lot.GenWeightRatioDict(
-                                            false))))))));
-
-            Console.WriteLine("{0}", val.Name);
-            lot.DecreasePrize(val.UID);
-
-            LotteryEngine.DbgUtils.printDbgInfoPrizePool(lot);
-        }
 
         return 0;
     }

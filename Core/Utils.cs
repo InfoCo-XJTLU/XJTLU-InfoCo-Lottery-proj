@@ -84,7 +84,7 @@ namespace Utils{
             Console.ForegroundColor = tmp;
         }
 
-        public static void WriteDbg(){
+        public static void WriteDebug(){
 
             var tmp = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -92,6 +92,169 @@ namespace Utils{
             Console.ForegroundColor = tmp;
         }
     }
+
+    public static class DebugUtils{
+
+        public static void WriteInColor(in string str, ConsoleColor color){
+
+            var origin = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.Write("{0}", str);
+            Console.ForegroundColor = origin;
+
+            return;
+        }
+
+        public static void WriteLine(in string format, params object?[] args){
+
+            WriteInColor("Debug: ", ConsoleColor.Yellow);
+            Console.WriteLine(format, args);
+        }
+
+        public static void Write(in string format, params object?[] args){
+
+            WriteInColor("Debug: ", ConsoleColor.Yellow);
+            Console.Write(format, args);
+        }
+
+        public static class Error{
+
+            public static void WriteInColor(in string str, ConsoleColor color){
+
+                var origin = Console.ForegroundColor;
+                Console.ForegroundColor = color;
+                Console.Error.Write("{0}", str);
+                Console.ForegroundColor = origin;
+
+                return;
+            }
+
+            public static void WriteLine(in string format, params object?[] args){
+
+                WriteInColor("Error: ", ConsoleColor.Red);
+                Console.Error.WriteLine(format, args);
+            }
+
+            public static void Write(in string format, params object?[] args){
+
+                WriteInColor("Error: ", ConsoleColor.Red);
+                Console.Error.Write(format, args);
+            }
+        }
+
+        public static void PrintObj(in object? obj, int level = 0){
+
+            static void printlevel(int level){
+
+                for(var i = 1; i <= level; i ++){
+                    Console.Write("|   ");
+                }
+            }
+
+            if(obj is null){
+                return;
+            }
+            var type = obj.GetType();
+            if(type is null){
+                return;
+            }
+
+            printlevel(level);
+            Write("Type name: {0}: ", type.Name);
+            if(type.IsValueType){
+                Console.WriteLine("{0}", obj);
+                return;
+            }
+
+            if((type.Namespace ?? "").StartsWith("System")){
+                Console.WriteLine("{0}", obj);
+                return;
+            }
+
+            Write("");
+            foreach(var val in type.GetProperties()){
+                if(val is null){
+                    break;
+                }
+                if (val.GetGetMethod() is null ) {
+                    Console.Write("(null)\n");
+                    continue;
+                }
+                printlevel(level);
+                Console.Write("{0}: ", val.Name);
+                PrintObj(val.GetValue(obj), level + 1);
+                Console.Write(", ");
+            }
+            Console.WriteLine("");
+        }
+
+        public static void PrintObj(in object?[] obj, int level = 0){
+
+            static void printlevel(int level){
+
+                for(var i = 1; i <= level; i ++){
+                    Console.Write("|   ");
+                }
+            }
+
+            if(obj is null){
+                return;
+            }
+            var type = (obj.FirstOrDefault()??0).GetType();
+            var properties = new List<System.Reflection.PropertyInfo>();
+            if(type is null){
+                return;
+            }
+
+            if(type.IsValueType){
+                foreach(var val in obj){
+                    Console.Write("{0}", val);
+                }
+                return;
+            }
+
+            if((type.Namespace ?? "").StartsWith("System")){
+                foreach(var val in obj){
+                    Console.Write("{0}", val);
+                }
+                return;
+            }
+
+            printlevel(level);
+            WriteLine("Type name: {0}: ", type.Name);
+            Write("");
+            printlevel(level);
+            foreach(var val in type.GetProperties()){
+                if(val is null){
+                    break;
+                }
+                properties.Add(val);
+                Console.Write("{0}\t", val.Name);
+            }
+            Console.WriteLine("");
+            if(properties.Count()<=0){
+                return;
+            }
+            foreach(var val in obj){
+                Write("");
+                printlevel(level);
+                foreach(var property in properties){
+                    if(property is null){
+                        break;
+                    }
+                    if (property.GetGetMethod() is null ) {
+                        Console.Write("(Null)\t");
+                        continue;
+                    }
+                    PrintObj(property.GetValue(val), level + 1);
+                    Console.Write("\t");
+                }
+                Console.WriteLine();
+            }
+        }
+
+    }
+
 
     public static class RandomGenerator{
 
