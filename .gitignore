@@ -6,3 +6,11 @@ Core/.projectile
 Core/node_modules
 Core/package.json
 Core/package-lock.json
+
+Core.Tsts/obj
+Core.Tsts/bin
+
+UI/obj
+UI/bin
+UI/Res
+.vs

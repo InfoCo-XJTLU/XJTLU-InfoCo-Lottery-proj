@@ -22,22 +22,22 @@ This project is used for XJTLU InfoCo Computer Science Club New member engagemen
 (I'm from China and is not good at English, feel free to point out my grammar mistakes)
 (Thank you for reading this)
 
-* Goals [5/7]
+* Goals [6/7]
 + [X] Random Generator (Partial)
 + [X] CSV Reader (Partial)
 + [X] Read Question Data Base in specific `.csv' file.
 + [X] Read Prize Data Base in specific `.csv' file.
-+ [-] Q&A check system [1/2]
++ [X] Q&A check system [2/2]
   - [X] Question info
-  - [ ] Question check system
+  - [X] Question check system (partial)
 + [X] Prize pool [2/2]
   - [X] Base rate
   - [X] Rate increasing
-+ [ ] UI [0/2]
++ [-] UI [1/2]
   - [ ] Questioning UI
-  - [ ] Lottery UI
+  - [X] Lottery UI
 
-* WIP issues [50%]
+* WIP issues [100%]
 ** done Make standard question&prize information structure.
 CLOSED: [2024-07-02 Tue 23:30]
 - State "done"       from "wip"        [2024-07-02 Tue 23:30]
@@ -47,13 +47,17 @@ Using CsvHelper instead
 CLOSED: [2024-07-02 Tue 23:30]
 - State "done"       from "todo"       [2024-07-02 Tue 23:30]
 - State "todo"       from              [2024-06-12 Wed 06:27]
-** todo Lottery concept
+** done Lottery concept
+CLOSED: [2024-07-07 Sun 23:18]
+- State "done"       from "todo"       [2024-07-07 Sun 23:18]
 - State "todo"       from              [2024-06-12 Wed 06:28] \\
   首先：
   所有奖品按照$(价值)逆序占据 100%中的比例
   题目按照$(价值)正序占据 100%中的比例
   正确的题目会将价值等值加入对应奖品的$(价值)中.
-** todo Debug utils
+** done Debug utils
+CLOSED: [2024-07-07 Sun 23:18]
+- State "done"       from "todo"       [2024-07-07 Sun 23:18]
 - State "todo"       from              [2024-07-02 Tue 23:41] \\
   Create a Debug class in Utils namespace.
   Delete all debug sentences in `Lottery.cs'
