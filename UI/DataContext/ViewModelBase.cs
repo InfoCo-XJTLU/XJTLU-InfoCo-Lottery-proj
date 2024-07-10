@@ -14,7 +14,7 @@ namespace UI.DataContext {
 
   public class CommandBase : ICommand {
 
-    public event EventHandler? CanExecuteChanged = null;
+    public event EventHandler? CanExecuteChanged;
 
     public Action? ExecuteAction { get; set; }
     public Func<bool>? CanExecuteFunc { get; set; }
@@ -77,7 +77,7 @@ namespace UI.DataContext {
     public ObservableCollection<Button> ButtonCollection { get; set; }
 
     public PageForegroundViewModel() {
-      ButtonCollection = [new Button { Content = new Grid() }];
+      ButtonCollection = [new Button()];
     }
   }
 }

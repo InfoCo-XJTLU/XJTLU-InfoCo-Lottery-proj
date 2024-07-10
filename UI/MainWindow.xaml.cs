@@ -26,7 +26,7 @@ namespace UI {
     private static LotteryCore.LotteryEngine priz = null!;
     public static LotteryCore.QuestionEngine Quiz { get => quiz; }
     public static LotteryCore.LotteryEngine Priz { get => priz; }
-    public static LotteryCore.QuestionEntry[] CorrectAnswers { get; set; } = new LotteryCore.QuestionEntry[3];
+    public static LotteryCore.QuestionEntry?[] CorrectAnswers { get; set; } = new LotteryCore.QuestionEntry[3];
 
     public MainWindow() {
       InitializeComponent();

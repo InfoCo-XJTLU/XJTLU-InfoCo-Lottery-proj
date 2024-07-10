@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace UI {
@@ -23,6 +21,17 @@ namespace UI {
 
     public static Action GenSourceInitializer(MediaElement obj, string sourceDir) {
       return () => { obj.Source = new Uri(sourceDir, UriKind.Absolute); };
+    }
+
+    public static T? GetAncestor<T>(DependencyObject reference) where T : DependencyObject {
+      DependencyObject parent = VisualTreeHelper.GetParent(reference);
+      while (!(parent is T) && parent != null) {
+        parent = VisualTreeHelper.GetParent(parent);
+      }
+      if (parent != null)
+        return (T)parent;
+      else
+        return null;
     }
   }
 }

@@ -17,6 +17,31 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace UI {
 
+  internal class LotteryHistory_Text {
+    private static LotteryHistory_Text? instance = null;
+    public static LotteryHistory_Text Instance { get => instance is null ? Create() : instance; }
+
+    private readonly List<uint> history_ = [];
+    public List<uint> History { get => history_; }
+
+    private LotteryHistory_Text() {
+    }
+
+    private LotteryHistory_Text Init() {
+      return this;
+    }
+
+    public static LotteryHistory_Text Create() {
+      instance = instance is null ? new LotteryHistory_Text().Init() : instance;
+      return instance;
+    }
+
+    public LotteryHistory_Text AddHist(uint UID) {
+      history_.Add(UID);
+      return instance ?? Create();
+    }
+  }
+
   /// <summary>
   /// PageDrawLottery.xaml 的交互逻辑
   /// </summary>
@@ -25,7 +50,20 @@ namespace UI {
     public PageDrawLottery() {
       InitializeComponent();
 
-      var val = MainWindow.Priz.GenPrizeItem(
+      var dict = new Dictionary<int, int>();
+      for (var i = 0; i < MainWindow.CorrectAnswers.Length; i++) {
+        var val = MainWindow.CorrectAnswers[i];
+        if (val is not null) {
+          if (dict.ContainsKey(val.Weight ?? 0)) {
+            dict[val.Weight ?? 0] += val.Ratio;
+          } else {
+            dict.Add(val.Weight ?? 0, val.Ratio);
+          }
+        }
+        MainWindow.CorrectAnswers[i] = null;
+      }
+
+      var prizeEventually = MainWindow.Priz.GenPrizeItem(
         LotteryEngine.GenSumSet(
           MainWindow.Priz.AdjustRatio(
             MainWindow.Priz.GenUIDRatioDictByWeight(
@@ -33,31 +71,32 @@ namespace UI {
                     LotteryEngine.GenSumSet(
                         LotteryEngine.AdjustRatio(
                             MainWindow.Priz.GenWeightRatioDict(
-                                false)
-                           )))))));
+                                false), dict
+                            )))))));
 
-      DebugUtils.WriteLine("{0}: {1}", val.UID, val.Name);
+      DebugUtils.WriteLine("{0}: {1}", prizeEventually.UID, prizeEventually.Name);
+      LotteryHistory_Text.Instance.AddHist(prizeEventually.UID);
 
-      MainWindow.Priz.DecreasePrize(val.UID);
+      MainWindow.Priz.DecreasePrize(prizeEventually.UID);
 
       Utils.InitialObj(new Dictionary<System.Windows.Threading.DispatcherObject, Action> {
-        { LotteryAnimation, Utils.GenSourceInitializer(LotteryAnimation, PathTool.GenResRelativePath("/Res/res/Animation/1920x1080/" + val.Weight switch{ -1=>"Star3.avi",0 => "Star5.avi", _=>"Star4.avi"})) },
-        {LotteryBackgroundImage, Utils.GenSourceInitializer(LotteryBackgroundImage, PathTool.GenResRelativePath("/Res/res/UI/Scene/StartScene/Menu/1920x1080/bg-catalyst.png")) },
-        {LotteryReslutBackground,Utils.GenSourceInitializer(LotteryReslutBackground, PathTool.GenResRelativePath("/Res/res/UI/Scene/StartScene/Menu/1920x1080/Result.png")) },
-        {ExitLotteryButtonIcon,Utils.GenSourceInitializer(ExitLotteryButtonIcon, PathTool.GenResRelativePath("/Res/res/UI/Scene/StartScene/Menu/1920x1080/primogem.png")) }
+        {LotteryAnimation, Utils.GenSourceInitializer(LotteryAnimation, PathTool.GenResRelativePath("/Res/res/Animation/1920x1080/" + prizeEventually.Weight switch{ -1=>"Star3.avi",0 => "Star5.avi", _=>"Star4.avi"})) },
+
+        { LotteryBackgroundImage, Utils.GenSourceInitializer(LotteryBackgroundImage, PathTool.GenResRelativePath("/Res/res/UI/Scene/StartScene/Menu/1920x1080/bg-catalyst.png")) },
+        { LotteryReslutBackground,Utils.GenSourceInitializer(LotteryReslutBackground, PathTool.GenResRelativePath("/Res/res/UI/Scene/StartScene/Menu/1920x1080/Result.png")) },
       });
 
-      if (val.Url is null) {
-        LotteryText.Text = val.Name;
-        string s = val.Name;
+      if (prizeEventually.Url is null) {
+        LotteryText.Text = prizeEventually.Name;
+        string s = prizeEventually.Name;
         LotteryText.Text = "";
         int a = s.Length;
         for (int i = 0; i < a; i++) {
-          LotteryText.Text += s.Substring(i, 1) + "\n";
+          LotteryText.Text += string.Concat(s.AsSpan(i, 1), "\n");
         }
       } else {
         Utils.InitialObj(new Dictionary<System.Windows.Threading.DispatcherObject, Action> {
-          {LotteryImage,Utils.GenSourceInitializer(LotteryBackgroundImage, PathTool.GenResRelativePath(val.Url)) }
+          {LotteryImage,Utils.GenSourceInitializer(LotteryBackgroundImage, PathTool.GenResRelativePath(prizeEventually.Url)) }
         });
       }
 

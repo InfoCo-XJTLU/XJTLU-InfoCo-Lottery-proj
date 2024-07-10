@@ -11,22 +11,14 @@
         <vm:PageForegroundViewModel />
     </Page.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="8*" />
-        </Grid.ColumnDefinitions>
-        <!-- Background part -->
+        <!--#region Background part -->
         <Image x:Name="Background_Image_Constant"
                Source="pack://application:,,,/Res/res/UI/Scene/StartScene/background/1920x1080/Background.png"
                HorizontalAlignment="Left" Margin="0" Stretch="Fill"
                Grid.ColumnSpan="2" />
-        <!-- Background naimation part -->
-        <Grid Background="Transparent"
-                      Grid.Column="0"
-                      Grid.ColumnSpan="2">
+        <!--#endregion-->
+        <!--#region Background naimation part -->
+        <Grid Background="Transparent">
             <MediaElement x:Name="BackgroundObject"
                           Margin="0"
                           LoadedBehavior="Play"
@@ -34,45 +26,12 @@
                           Stretch="Fill"
                           Visibility="Hidden" />
         </Grid>
-        <Grid Grid.Row="0"
-              Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="6*" />
-                <RowDefinition Height="2*" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="1">
-                <ItemsControl ItemsSource="{Binding ButtonCollection}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Click="QuestionButtonClicked">
-                                <Grid>
-                                    <Image Stretch="UniformToFill"
-                                           Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/shop-nav-bg.png" />
-                                    <Viewbox>
-                                        <Border BorderThickness="10">
-                                            <TextBlock Text="{Binding}"
-                                                       VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center"
-                                                       FontSize="28"
-                                                       FontStyle="Normal"
-                                                       FontFamily="Felix Titling" />
-                                        </Border>
-                                    </Viewbox>
-                                </Grid>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-        </Grid>
-        <!-- Right Part -->
         <Viewbox Stretch="Fill"
                  Margin="0"
-                 UseLayoutRounding="True"
-                 Grid.Column="1">
+                 UseLayoutRounding="True">
         </Viewbox>
-        <Grid Grid.Column="1">
+        <!--#endregion-->
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="8*" />
@@ -85,11 +44,12 @@
                 <RowDefinition Height="3*" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
+
             <Grid Grid.Column="1"
                    Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="8*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="7*" />
                     <ColumnDefinition Width="8*" />
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
@@ -98,6 +58,7 @@
                     <RowDefinition Height="8*" />
                     <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
+
                 <Image x:Name="ForegroundInfoMenual"
                        Grid.ColumnSpan="4"
                        Grid.RowSpan="3"
@@ -106,6 +67,18 @@
                        Margin="5"
                        Stretch="None"
                        Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/Menu.png" />
+                <Frame x:Name="frmDisplay"
+                       Visibility="Hidden"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       NavigationUIVisibility="Hidden"
+                       Source="pack://application:,,,/PageQuestions.xaml"
+                       Height="354"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Grid.ColumnSpan="2"
+                       Margin="226,0,0,0"
+                       Width="624" />
                 <Viewbox Grid.Column="1"
                            Grid.Row="1">
                     <TextBlock Text=""
@@ -114,105 +87,152 @@
             </Grid>
 
             <Grid Grid.Row="1"
-                  Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid Margin="0"
-                      Grid.Column="0">
+                  Grid.Column="0"
+                  Grid.ColumnSpan="3">
+
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="6*" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="2*" />
-                        <RowDefinition Height="6*" />
-                        <RowDefinition Height="2*" />
-                    </Grid.RowDefinitions>
-
-                    <Border x:Name="StoneLeft"
-                            CornerRadius="32"
-                            Background="#66A9A9A9"
-                            Margin="0"
-                            Grid.Column="1"
-                            Grid.Row="1" />
-
-                    <Grid Margin="0"
-                          Grid.Column="1"
-                          Grid.Row="1">
+                    <!--#region Flower Stone Exit-->
+                    <Grid Grid.Column="2">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*" />
                             <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="17*" />
+                            <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*" />
-                            <RowDefinition Height="8*" />
-                            <RowDefinition Height="1*" />
-                        </Grid.RowDefinitions>
-                        <Image Name="PrimogemIcon"
-                               Grid.Column="0"
-                               Grid.Row="1"
-                               Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/primogem.png" />
-                        <Viewbox Margin="1"
-                                 Grid.Column="2"
-                                 Grid.Row="1">
-                            <TextBox x:Name="StoneLeft_label"
-                                 FontSize="28"
-                                 HorizontalAlignment="Center"
-                                 VerticalAlignment="Center"
-                                 VerticalContentAlignment="Center"
-                                 TextWrapping="Wrap"
-                                 Text="Nil"
-                                 Background="#00000000"
-                                 BorderThickness="0"
-                                 Margin="5" />
-                        </Viewbox>
-                    </Grid>
-                </Grid>
-                <Grid Grid.Row="1"
-                      Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="6*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="2*" />
-                        <RowDefinition Height="6*" />
-                        <RowDefinition Height="2*" />
-                    </Grid.RowDefinitions>
+                        <Grid Grid.Column="0"
+                              Margin="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="18*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*" />
+                                <RowDefinition Height="4*" />
+                                <RowDefinition Height="3*" />
+                            </Grid.RowDefinitions>
 
-                    <Border x:Name="FlowLeft"
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            CornerRadius="36"
-                            Background="#66A9A9A9"
-                            Margin="0" />
-
-                    <Grid Grid.Row="1"
+                            <Border x:Name="StoneLeft"
+                                    CornerRadius="22"
+                                    Background="#66A9A9A9"
+                                    Margin="0"
+                                    Grid.Column="1"
+                                    Grid.Row="1" />
+                            <Grid Margin="0"
+                                  Grid.Column="1"
+                                  Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="17*" />
+                                    <ColumnDefinition Width="5*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="8*" />
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
+                                <Image Name="PrimogemIcon"
+                                       Grid.Column="0"
+                                       Grid.Row="1"
+                                       Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/primogem.png" />
+                                <Viewbox Margin="1"
+                                         Grid.Column="2"
+                                         Grid.Row="1">
+                                    <TextBox x:Name="StoneLeft_label"
+                                             FontSize="28"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"
+                                             VerticalContentAlignment="Center"
+                                             TextWrapping="Wrap"
+                                             Text="Nil"
+                                             Background="#00000000"
+                                             BorderThickness="0"
+                                             Margin="5" />
+                                </Viewbox>
+                                <Grid Grid.Column="2" Grid.ColumnSpan="2" Margin="81,4,0,4" Grid.RowSpan="3" HorizontalAlignment="Left" Width="24">
+                                    <Border Background="AliceBlue"
+                                            CornerRadius="100" Margin="0,5,0,5"
+                                            RenderTransformOrigin="0.494,-0.228">
+                                        <Border Background="LightYellow"
+                                            CornerRadius="100" Margin="3,3,3,3"
+                                            RenderTransformOrigin="0.494,-0.228">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="3*" />
+                                                    <ColumnDefinition Width="8*" />
+                                                    <ColumnDefinition Width="4*" />
+                                                    <ColumnDefinition Width="8*" />
+                                                    <ColumnDefinition Width="3*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="3*" />
+                                                    <RowDefinition Height="8*" />
+                                                    <RowDefinition Height="4*" />
+                                                    <RowDefinition Height="8*" />
+                                                    <RowDefinition Height="3*" />
+                                                </Grid.RowDefinitions>
+                                                <Border Grid.Column="1"
+                                                        Grid.ColumnSpan="3"
+                                                        Grid.Row="2"
+                                                        Grid.RowSpan="1"
+                                                        Background="Brown" />
+                                                <Border Grid.Column="2"
+                                                        Grid.ColumnSpan="1"
+                                                        Grid.Row="1"
+                                                        Grid.RowSpan="3"
+                                                        Background="Brown" />
+                                            </Grid>
+                                        </Border>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1"
+                              Grid.Column="1"
+                              Margin="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="18*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*" />
+                                <RowDefinition Height="4*" />
+                                <RowDefinition Height="3*" />
+                            </Grid.RowDefinitions>
+                            <Border x:Name="FlowLeft"
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    CornerRadius="22"
+                                    Background="#66A9A9A9"
+                                    Margin="0" />
+                            <Grid Grid.Row="1"
                           Grid.Column="1"
                           Margin="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="17*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*" />
-                            <RowDefinition Height="8*" />
-                            <RowDefinition Height="1*" />
-                        </Grid.RowDefinitions>
-                        <Image x:Name="AcquaintFateIcon"
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="17*" />
+                                    <ColumnDefinition Width="8*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="8*" />
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
+                                <Image x:Name="AcquaintFateIcon"
                                Grid.Column="0"
                                Grid.Row="1"
                                Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/acquaint-fate.png" />
-                        <Viewbox Margin="1"
+                                <Viewbox Margin="1"
                                  Grid.Column="2"
                                  Grid.Row="1">
-                            <TextBox x:Name="FlowLeft_Label"
+                                    <TextBox x:Name="FlowLeft_Label"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
@@ -221,79 +241,355 @@
                                  Background="#00000000"
                                  BorderThickness="0,0,0,0"
                                  Margin="5" />
-                        </Viewbox>
+                                </Viewbox>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*" />
+                                <RowDefinition Height="4*" />
+                                <RowDefinition Height="3*" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="ButtonClearAnswerStatus"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    Margin="0"
+                                    Grid.Column="1"
+                                    Grid.Row="1" Click="ButtonClearAnswerStatus_Click">
+                                <Grid Width="49" Height="42">
+                                    <Border Background="AliceBlue"
+                                            CornerRadius="100"
+                                            Margin="8,5,8,5"
+                                            RenderTransformOrigin="0.494,-0.228">
+                                        <Border Background="LightYellow"
+                                            CornerRadius="100" Margin="3,3,3,3"
+                                            RenderTransformOrigin="0.494,-0.228">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="3*" />
+                                                    <ColumnDefinition Width="8*" />
+                                                    <ColumnDefinition Width="4*" />
+                                                    <ColumnDefinition Width="8*" />
+                                                    <ColumnDefinition Width="3*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="3*" />
+                                                    <RowDefinition Height="8*" />
+                                                    <RowDefinition Height="4*" />
+                                                    <RowDefinition Height="8*" />
+                                                    <RowDefinition Height="3*" />
+                                                </Grid.RowDefinitions>
+                                                <Border Grid.Column="1"
+                                                        Grid.ColumnSpan="3"
+                                                        Grid.Row="2"
+                                                        Grid.RowSpan="1"
+                                                        Background="Brown" RenderTransformOrigin="0.5,0.5">
+                                                    <Border.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="45" />
+                                                            <TranslateTransform />
+                                                        </TransformGroup>
+                                                    </Border.RenderTransform>
+                                                </Border>
+                                                <Border Grid.Column="2"
+                                                        Grid.ColumnSpan="1"
+                                                        Grid.Row="1"
+                                                        Grid.RowSpan="3"
+                                                        Background="Brown" RenderTransformOrigin="0.5,0.5">
+                                                    <Border.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="45" />
+                                                            <TranslateTransform />
+                                                        </TransformGroup>
+                                                    </Border.RenderTransform>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </Border>
+                                </Grid>
+                            </Button>
+                        </Grid>
                     </Grid>
+                    <!--#endregion-->
+                    <!--#region Questions dock-->
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Margin="10"
+                                    x:Name="ButtonDifficutySimple"
+                                Grid.Column="0"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                   BorderThickness="0" Click="ButtonDifficutySimple_Click">
+                                <Border Background="LightYellow"
+                                        BorderThickness="0"
+                                        CornerRadius="20" Height="88" Width="189">
+                                    <TextBlock VerticalAlignment="Center"
+                                               HorizontalAlignment="Center">
+                                        Simple
+                                    </TextBlock>
+                                </Border>
+                            </Button>
+                            <Button Margin="10"
+                                    x:Name="ButtonDifficutyNormal"
+                                Grid.Column="1"
+                                    Background="Transparent"
+                                     BorderBrush="Transparent"
+                                   BorderThickness="0" Click="ButtonDifficutyNormal_Click">
+                                <Border Background="LightYellow"
+                                        BorderThickness="0"
+                                        CornerRadius="20" Height="88" Width="189">
+                                    <TextBlock VerticalAlignment="Center"
+                                               HorizontalAlignment="Center">
+                                        Normal
+                                    </TextBlock>
+                                </Border>
+                            </Button>
+                            <Button Margin="10"
+                                    x:Name="ButtonDifficutyHard"
+                                Grid.Column="2"
+                                    Background="Transparent"
+                                     BorderBrush="Transparent"
+                                   BorderThickness="0" Click="ButtonDifficutyHard_Click">
+                                <Border Background="LightYellow"
+                                        BorderThickness="0"
+                                        CornerRadius="20" Height="88" Width="189">
+                                    <TextBlock VerticalAlignment="Center"
+                                               HorizontalAlignment="Center">
+                                        Hard
+                                    </TextBlock>
+                                </Border>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <!--#endregion-->
                 </Grid>
             </Grid>
             <Grid Grid.Row="3"
-                  Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Row="0">
+                  Grid.Column="0"
+                  Grid.ColumnSpan="3">
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="6*" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*" />
-                        <RowDefinition Height="4*" />
-                        <RowDefinition Height="3*" />
-                    </Grid.RowDefinitions>
-                    <Button x:Name="Wish_x10"
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            BorderThickness="0"
-                            Background="#00000000" Click="Wish_x1_Click">
-                        <Grid>
-                            <Image x:Name="Button1x"
-                                   Stretch="UniformToFill"
-                                   Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/shop-nav-bg.png" />
-                            <Viewbox>
-                                <Border BorderThickness="10">
-                                    <TextBlock Text="Wish x1"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Center"
-                                           FontStyle="Normal"
-                                           FontFamily="Felix Titling" />
-                                </Border>
-                            </Viewbox>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="3*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="2"
+                              Grid.Column="1">
+                            <Border BorderThickness="5"
+                                    CornerRadius="24"
+                                    Background="LightYellow">
+                                <Button x:Name="ButtonStore"
+                                        Background="Transparent"
+                                        BorderThickness="0" Click="ButtonStore_Click">
+                                    <Viewbox>
+                                        <Border BorderThickness="5">
+                                            <TextBlock Text="Store" />
+                                        </Border>
+                                    </Viewbox>
+                                </Button>
+                            </Border>
                         </Grid>
-                    </Button>
-                </Grid>
-                <Grid Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="6*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*" />
-                        <RowDefinition Height="4*" />
-                        <RowDefinition Height="3*" />
-                    </Grid.RowDefinitions>
-                    <Button x:Name="Wish_x1"
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            BorderThickness="0"
-                            Background="#00000000" Click="Wish_x10_Click">
-                        <Grid>
-                            <Image x:Name="Button10x"
-                                   Stretch="UniformToFill"
-                                   Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/shop-nav-bg.png" />
-                            <Viewbox>
-                                <Border BorderThickness="10">
-                                    <TextBlock Text="Wish x10"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Center"
-                                           FontStyle="Normal"
-                                           FontFamily="Felix Titling" />
-                                </Border>
-                            </Viewbox>
+                        <Grid Grid.Row="2"
+                              Grid.Column="2">
+                            <Border BorderThickness="5"
+                                    CornerRadius="24"
+                                    Background="LightYellow">
+                                <Button x:Name="StorageButton"
+                                        Background="Transparent"
+                                        BorderThickness="0" Click="StorageButton_Click">
+                                    <Viewbox>
+                                        <Border BorderThickness="5">
+                                            <TextBlock Text="Storage" />
+                                        </Border>
+                                    </Viewbox>
+                                </Button>
+                            </Border>
                         </Grid>
-                    </Button>
+                        <Grid Grid.Row="2"
+                              Grid.Column="3">
+                            <Border BorderThickness="5"
+                                    CornerRadius="24"
+                                    Background="LightYellow">
+                                <Button x:Name="HistoryButton"
+                                        Background="Transparent"
+                                        BorderThickness="0" Click="ButtonHistory_Click">
+                                    <Viewbox>
+                                        <Border BorderThickness="5">
+                                            <TextBlock Text="Hitstory" />
+                                        </Border>
+                                    </Viewbox>
+                                </Button>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                    <!--#region Button-->
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="8*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*" />
+                                    <RowDefinition Height="4*" />
+                                    <RowDefinition Height="3*" />
+                                </Grid.RowDefinitions>
+                                <Button x:Name="Wish_x1"
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        BorderThickness="0"
+                                        Background="#00000000" Click="Wish_x1_Click">
+                                    <Grid>
+                                        <Image x:Name="Button1x"
+                                               Stretch="Uniform"
+                                               Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/button.png" />
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="4*" />
+                                                <ColumnDefinition Width="4*" />
+                                                <ColumnDefinition Width="2*" />
+                                                <ColumnDefinition Width="4*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Viewbox Grid.Column="1">
+                                                <Border BorderThickness="10">
+                                                    <TextBlock Text="Wish x1"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center"
+                                                           FontStyle="Normal"
+                                                           FontFamily="Felix Titling" />
+                                                </Border>
+                                            </Viewbox>
+                                            <Grid Grid.Column="2">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="2*" />
+                                                    <RowDefinition Height="2*" />
+                                                    <RowDefinition Height="1*" />
+                                                </Grid.RowDefinitions>
+                                                <Image x:Name="Button1x_icon"
+                                                       Grid.Row="1"
+                                                       Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/acquaint-fate.png" />
+                                                <Viewbox Grid.Row="2">
+                                                    <TextBlock Text="x1"
+                                                               x:Name="Button1x_Text_cost"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center"
+                                                               FontStyle="Normal"
+                                                               Foreground="Black" />
+                                                </Viewbox>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*" />
+                                    <RowDefinition Height="4*" />
+                                    <RowDefinition Height="3*" />
+                                </Grid.RowDefinitions>
+                                <Button x:Name="Wish_x10"
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        BorderThickness="0"
+                                        Background="#00000000" Click="Wish_x10_Click">
+                                    <Grid>
+                                        <Image x:Name="Button10x"
+                                               Stretch="Uniform"
+                                               Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/button.png" />
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="4*" />
+                                                <ColumnDefinition Width="4*" />
+                                                <ColumnDefinition Width="2*" />
+                                                <ColumnDefinition Width="4*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Viewbox Grid.Column="1">
+                                                <Border BorderThickness="10">
+                                                    <TextBlock Text="Wish x10"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center"
+                                                           FontStyle="Normal"
+                                                           FontFamily="Felix Titling" />
+                                                </Border>
+                                            </Viewbox>
+                                            <Grid Grid.Column="2">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="2*" />
+                                                    <RowDefinition Height="2*" />
+                                                    <RowDefinition Height="1*" />
+                                                </Grid.RowDefinitions>
+                                                <Image x:Name="Button10x_icon"
+                                                       Grid.Row="1"
+                                                       Source="pack://application:,,,/Res/res/UI/Scene/StartScene/Menu/1920x1080/acquaint-fate.png" />
+                                                <Viewbox Grid.Row="2">
+                                                    <TextBlock Text="x10"
+                                                               x:Name="Button10x_Text_cost"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center"
+                                                               FontStyle="Normal"
+                                                               Foreground="Black" />
+                                                </Viewbox>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <!--#endregion-->
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>
