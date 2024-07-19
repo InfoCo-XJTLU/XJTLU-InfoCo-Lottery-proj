@@ -41,10 +41,10 @@
                     <RowDefinition Height="3*" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <Button x:Name="a" Grid.Column="0" Grid.Row="1" Margin="10,20,10,20" Click="a_Click" />
-                <Button x:Name="b" Grid.Column="1" Grid.Row="1" Margin="10,20,10,20" Click="b_Click" />
-                <Button x:Name="c" Grid.Column="2" Grid.Row="1" Margin="10,20,10,20" Click="c_Click" />
-                <Button x:Name="d" Grid.Column="3" Grid.Row="1" Margin="10,20,10,20" Click="d_Click" />
+                <Button x:Name="a" Grid.Column="0" Grid.Row="1" Margin="10,20,10,20" Click="A_Click" />
+                <Button x:Name="b" Grid.Column="1" Grid.Row="1" Margin="10,20,10,20" Click="B_Click" />
+                <Button x:Name="c" Grid.Column="2" Grid.Row="1" Margin="10,20,10,20" Click="C_Click" />
+                <Button x:Name="d" Grid.Column="3" Grid.Row="1" Margin="10,20,10,20" Click="D_Click" />
             </Grid>
             <Grid Grid.Row="0"
                   Grid.Column="0">

@@ -25,7 +25,7 @@ namespace UI {
 
     public static T? GetAncestor<T>(DependencyObject reference) where T : DependencyObject {
       DependencyObject parent = VisualTreeHelper.GetParent(reference);
-      while (!(parent is T) && parent != null) {
+      while (parent is not T && parent != null) {
         parent = VisualTreeHelper.GetParent(parent);
       }
       if (parent != null)

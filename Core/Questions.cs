@@ -1,4 +1,6 @@
+using CsvHelper;
 using CsvHelper.Configuration.Attributes;
+using System.Globalization;
 
 namespace LotteryCore {
 
@@ -173,6 +175,18 @@ namespace LotteryCore {
       return questiondb.Where(x => difficulty == x.Value.Difficulty)
           .Select(x => x.Value.UID)
           .ToArray();
+    }
+
+    public bool WriteData() {
+      var records = questiondb.Values.ToArray();
+
+      using (var writer = new StreamWriter(dbpath)) {
+        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture)) {
+          csv.WriteRecords(records);
+        }
+      }
+
+      return true;
     }
   }
 }

@@ -1,4 +1,3 @@
-using System.Windows.Forms;
 using System.Diagnostics;
 
 namespace LotteryCore {
@@ -13,14 +12,14 @@ namespace LotteryCore {
       // Initializes the variables to pass to the MessageBox.Show method.
       string message = $"File whose type is \"{fp}\" Not found";
       string caption = "Error File Not Found.";
-      MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-      DialogResult result;
+      //MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+      //DialogResult result;
 
       // Displays the MessageBox.
-      result = MessageBox.Show(message, caption, buttons);
-      if (result == System.Windows.Forms.DialogResult.Yes) {
-        return;
-      }
+      //result = MessageBox.Show(message, caption, buttons);
+      //if (result == System.Windows.Forms.DialogResult.Yes) {
+      //  return;
+      //}
     }
 
     public static void IinitDB<T>(ref string dbpath, out List<T> dbi) {

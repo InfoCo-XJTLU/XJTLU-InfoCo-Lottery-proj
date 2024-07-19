@@ -1,6 +1,7 @@
 using CsvHelper;
 using CsvHelper.Configuration.Attributes;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 namespace LotteryCore {
@@ -477,9 +478,9 @@ namespace LotteryCore {
       var rann = LotteryCore.RandomGenerator.GenRandom();
 
       // ------------------------------------------------------------------------------------
-      LotteryCore.ConsoleWrapper.WriteDebug();
+      ConsoleWrapper.WriteDebug();
       Console.WriteLine("{0}", "sumset(item)");
-      LotteryCore.ConsoleWrapper.WriteDebug();
+      ConsoleWrapper.WriteDebug();
       Console.WriteLine("{0}", "uid/ratio(in 100%)");
       DbgUtils.PrintDict(prize);
       DbgUtils.PrintInt(rann);
@@ -492,6 +493,18 @@ namespace LotteryCore {
       }
 
       return new PrizeItem();
+    }
+
+    public bool WriteData() {
+      var records = prizedb.Values.ToList();
+
+      using (var writer = new StreamWriter(dbpath)) {
+        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture)) {
+          csv.WriteRecords(records);
+        }
+      }
+
+      return true;
     }
   }//!END: LotteryEngine
 }

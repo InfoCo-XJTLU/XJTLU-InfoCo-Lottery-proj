@@ -20,7 +20,7 @@ namespace UI {
   /// </summary>
   public partial class PageQuestions : Page {
     private int quest = 0;
-    private List<LotteryCore.QuestionEntry> quiz;
+    private readonly List<LotteryCore.QuestionEntry> quiz;
 
     public PageQuestions() {
       InitializeComponent();
@@ -44,7 +44,7 @@ namespace UI {
       }
     }
 
-    private void a_Click(object sender, RoutedEventArgs e) {
+    private void A_Click(object sender, RoutedEventArgs e) {
       if (quiz.Count <= 0) {
         return;
       }
@@ -59,13 +59,13 @@ namespace UI {
             MainWindow.CorrectAnswers[1] = null; MainWindow.CorrectAnswers[2] = null;
           }
         }
-        Questions.Text = "Correct Answwer";
+        Questions.Text = "Correct Answer";
       } else {
-        Questions.Text = "Answwer Incorrect";
+        Questions.Text = "Answer Incorrect";
       }
     }
 
-    private void b_Click(object sender, RoutedEventArgs e) {
+    private void B_Click(object sender, RoutedEventArgs e) {
       if (quiz.Count <= 0) {
         return;
       }
@@ -86,7 +86,7 @@ namespace UI {
       }
     }
 
-    private void c_Click(object sender, RoutedEventArgs e) {
+    private void C_Click(object sender, RoutedEventArgs e) {
       if (quiz.Count <= 0) {
         return;
       }
@@ -107,7 +107,7 @@ namespace UI {
       }
     }
 
-    private void d_Click(object sender, RoutedEventArgs e) {
+    private void D_Click(object sender, RoutedEventArgs e) {
       if (quiz.Count <= 0) {
         return;
       }
@@ -150,9 +150,7 @@ namespace UI {
 
     private void Exit_Click(object sender, RoutedEventArgs e) {
       var parent = Utils.GetAncestor<PageForeground>(this);
-      if (parent != null) {
-        parent.frmDisplay.Navigate("");
-      }
+      parent?.frmDisplay.Navigate("");
     }
 
     private void Previous_Click(object sender, RoutedEventArgs e) {

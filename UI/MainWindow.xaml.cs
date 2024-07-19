@@ -45,6 +45,9 @@ namespace UI {
       quiz = new LotteryCore.QuestionEngine(LotteryCore.PathTool.GenResRelativePath("cfg/questionDatabase.csv"));
       priz = new LotteryCore.LotteryEngine(LotteryCore.PathTool.GenResRelativePath("cfg/prizeDatabase.csv"));
 
+      Closing += (s, e) => priz.WriteData();
+      Closing += (s, e) => quiz.WriteData();
+
       frmLogical.Navigate(new Uri("pack://application:,,,/PageForeground.xaml"));
     }
 
