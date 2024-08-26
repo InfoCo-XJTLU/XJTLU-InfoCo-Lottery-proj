@@ -46,6 +46,7 @@ namespace UI {
   /// PageDrawLottery.xaml 的交互逻辑
   /// </summary>
   public partial class PageDrawLottery : Page {
+    private static int heightest = 0;
 
     public PageDrawLottery() {
       InitializeComponent();
@@ -62,6 +63,21 @@ namespace UI {
         }
         MainWindow.CorrectAnswers[i] = null;
       }
+      var prizelist = MainWindow.Priz.GenWeightRatioDict(
+                                false);
+      if (prizelist == null) {
+        throw new Exception("Error: ");
+      }
+      if (heightest >= 10) {
+        int? v = MainWindow.Priz.Prizedb.Values.Select(x => x.Weight).Sum();
+        int? j = dict.Values.Sum();
+        if (dict.ContainsKey(0)) {
+          dict[0] += 1000 - v ?? 0 - j ?? 0 - 1;
+        } else {
+          dict.Add(0, 1000 - v ?? 0 - j ?? 0 - 1);
+        }
+        heightest = 0;
+      }
 
       var prizeEventually = MainWindow.Priz.GenPrizeItem(
         LotteryEngine.GenSumSet(
@@ -70,11 +86,16 @@ namespace UI {
                 LotteryEngine.GenPrizeWeigt(
                     LotteryEngine.GenSumSet(
                         LotteryEngine.AdjustRatio(
-                            MainWindow.Priz.GenWeightRatioDict(
-                                false), dict
+                            prizelist, dict
                             )))))));
 
       DebugUtils.WriteLine("{0}: {1}", prizeEventually.UID, prizeEventually.Name);
+      if (MainWindow.Priz.Prizedb[prizeEventually.UID].Weight != 0) {
+        heightest++;
+      } else {
+        heightest = 0;
+      }
+      DebugUtils.WriteLine("{0}: {1}", MainWindow.Priz.Prizedb.Values.Where(x => x.Weight == 0).ToArray()[0].Name, heightest);
       LotteryHistory_Text.Instance.AddHist(prizeEventually.UID);
 
       MainWindow.Priz.DecreasePrize(prizeEventually.UID);

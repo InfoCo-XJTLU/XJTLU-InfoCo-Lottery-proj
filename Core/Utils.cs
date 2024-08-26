@@ -69,7 +69,7 @@ namespace LotteryCore {
             tmppath = "Y";
           }
           if (tmppath.Contains('Y') || tmppath.Contains('y')) {
-            Console.Write("{0}", "Given a path:");
+            Console.Write("{0}", "Give a path:");
             tmppath = Console.ReadLine();
           } else {
             DebugUtils.Error.WriteLine("{0}", "Expect a database with extension of " + ft);

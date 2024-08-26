@@ -178,13 +178,14 @@ namespace LotteryCore {
     }
 
     public bool WriteData() {
-      var records = questiondb.Values.ToArray();
-
-      using (var writer = new StreamWriter(dbpath)) {
-        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture)) {
-          csv.WriteRecords(records);
-        }
-      }
+      // TODO:
+      //var records = questiondb.Values.ToArray();
+      //
+      //using (var writer = new StreamWriter(dbpath)) {
+      //  using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture)) {
+      //    csv.WriteRecords(records);
+      //  }
+      //}
 
       return true;
     }

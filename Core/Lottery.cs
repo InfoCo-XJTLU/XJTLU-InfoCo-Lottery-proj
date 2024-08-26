@@ -38,7 +38,7 @@ namespace LotteryCore {
 
     [Name("UID")][CsvHelper.Configuration.Attributes.Optional] public uint UID { get { return uid; } set { uid = value; } }
     [Name("Name")][NullValues("Null")] public string Name { get => name; set => name = value; }
-    [Name("Weight")][NullValues("Null")] public int? Weight { [return: NotNull] get { return weight; } set { weight = (value ?? 0) >= 0 || value is null ? value.GetValueOrDefault(-1) : throw new Exception("Error: invalid input."); } }
+    [Name("Weight")][NullValues("Null")] public int? Weight { [return: NotNull] get { return weight; } set { weight = (value ?? 0) >= 0 || value is not null ? value.GetValueOrDefault(-1) : throw new Exception("Error: invalid input."); } }
 
     [Name("Number")]
     public int Num {
