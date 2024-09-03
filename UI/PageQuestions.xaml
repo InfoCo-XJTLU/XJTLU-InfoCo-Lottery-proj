@@ -27,7 +27,7 @@
                        Grid.Row="1"
                        FontSize="20"
                        TextWrapping="Wrap"
-                       Text="flkajlfkadjsflkadsfkjahfljdlsakjfalksjfldsjf" />
+                       Text="Please Restart This Page." />
             <Grid Grid.Row="2"
                   Grid.Column="1">
                 <Grid.ColumnDefinitions>

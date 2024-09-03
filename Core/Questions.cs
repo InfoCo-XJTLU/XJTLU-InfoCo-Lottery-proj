@@ -27,7 +27,7 @@ namespace LotteryCore {
     [Ignore] private string answer = null!;
 
     [Name("UID")][Optional] public uint UID { get => uid; set => uid = value; }
-    [Name("Contents")] public string Contents { get => contents; set => contents = value; }
+    [Name("Contents")] public string Contents { get => contents; set => contents = value; }// TODO
     [Name("Difficulty")] public EDifficulty Difficulty { get => difficulty; set => difficulty = value; }
     [Name("Weight")][NullValues("Null")] public int? Weight { get => weight; set => weight = (value ?? 0) >= 0 || value is null ? value.GetValueOrDefault(-1) : throw new Exception("Error: invalid weight."); }
     [Name("Ratio")] public int Ratio { get => adjustRatio; set => adjustRatio = value >= 0 && value <= 1000 ? value : throw new Exception("Error: invalid ratio."); }

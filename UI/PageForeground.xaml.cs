@@ -57,6 +57,7 @@ namespace UI {
 
     public PageForeground() {
       InitializeComponent();
+
       parentWindow = Application.Current.MainWindow;
 
       Loaded += (s, e) => DebugUtils.WriteLine("PageForeground/Loaded");
@@ -105,7 +106,11 @@ namespace UI {
     }
 
     private void ButtonHistory_Click(object sender, RoutedEventArgs e) {
-      frmDisplay.Navigate(new Uri("pack://application:,,,/PageHistory.xaml"));
+      //frmDisplay.Navigate(new Uri("pack://application:,,,/PageHistory.xaml"));
+      LotteryCore.DebugUtils.WriteLine("= Prize Record ==============================================");
+      foreach (var prize in LotteryHistory_Text.Instance.History) {
+        LotteryCore.DebugUtils.WriteLine("{0}", MainWindow.Priz.Prizedb[prize].Name);
+      }
     }
 
     private void StorageButton_Click(object sender, RoutedEventArgs e) {

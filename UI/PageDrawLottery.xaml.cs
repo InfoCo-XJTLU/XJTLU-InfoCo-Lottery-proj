@@ -68,7 +68,7 @@ namespace UI {
       if (prizelist == null) {
         throw new Exception("Error: ");
       }
-      if (heightest >= 10) {
+      if (heightest >= 8) {
         int? v = MainWindow.Priz.Prizedb.Values.Select(x => x.Weight).Sum();
         int? j = dict.Values.Sum();
         if (dict.ContainsKey(0)) {
@@ -119,6 +119,7 @@ namespace UI {
         Utils.InitialObj(new Dictionary<System.Windows.Threading.DispatcherObject, Action> {
           {LotteryImage,Utils.GenSourceInitializer(LotteryBackgroundImage, PathTool.GenResRelativePath(prizeEventually.Url)) }
         });
+        LotteryText.Text = "";
       }
 
       LotteryAnimation.Play();

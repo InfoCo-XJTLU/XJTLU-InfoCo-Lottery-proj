@@ -44,6 +44,20 @@ namespace UI {
       }
     }
 
+    private void hideButtons() {
+      a.Visibility = Visibility.Hidden;
+      b.Visibility = Visibility.Hidden;
+      c.Visibility = Visibility.Hidden;
+      d.Visibility = Visibility.Hidden;
+    }
+
+    private void showButtons() {
+      a.Visibility = Visibility.Visible;
+      b.Visibility = Visibility.Visible;
+      c.Visibility = Visibility.Visible;
+      d.Visibility = Visibility.Visible;
+    }
+
     private void A_Click(object sender, RoutedEventArgs e) {
       if (quiz.Count <= 0) {
         return;
@@ -63,6 +77,7 @@ namespace UI {
       } else {
         Questions.Text = "Answer Incorrect";
       }
+      hideButtons();
     }
 
     private void B_Click(object sender, RoutedEventArgs e) {
@@ -84,6 +99,7 @@ namespace UI {
       } else {
         Questions.Text = "Answwer Incorrect";
       }
+      hideButtons();
     }
 
     private void C_Click(object sender, RoutedEventArgs e) {
@@ -105,6 +121,7 @@ namespace UI {
       } else {
         Questions.Text = "Answwer Incorrect";
       }
+      hideButtons();
     }
 
     private void D_Click(object sender, RoutedEventArgs e) {
@@ -126,6 +143,7 @@ namespace UI {
       } else {
         Questions.Text = "Answwer Incorrect";
       }
+      hideButtons();
     }
 
     private void Next_Click(object sender, RoutedEventArgs e) {
@@ -146,6 +164,7 @@ namespace UI {
             d.Content = choice.Value; break;
         }
       }
+      showButtons();
     }
 
     private void Exit_Click(object sender, RoutedEventArgs e) {
@@ -171,6 +190,7 @@ namespace UI {
             d.Content = choice.Value; break;
         }
       }
+      showButtons();
     }
   }
 }
